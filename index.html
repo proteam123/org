@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOODSPOTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2e8b57;
+            --secondary: #1a5632;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --accent: #ffd700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--light);
+            overflow-x: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        /* Landing Page */
+        .landing-container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+        
+        .landing-container.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .landing-container h1 {
+            font-family: 'Kaushan Script', cursive;
+            font-size: clamp(4rem, 15vw, 9rem);
+            color: white;
+            margin: 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .enter-button {
+            margin-top: 40px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .enter-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: white;
+            transition: all 0.4s;
+            z-index: -1;
+        }
+        
+        .enter-button:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .enter-button:hover:before {
+            left: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--light);
+            color: var(--dark);
+            padding-top: 80px;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+        
+        .navbar .logo {
+            font-family: 'Kaushan Script', cursive;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .search-bar {
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+        
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        header h1 {
+            font-family: 'Kaushan Script', cursive;
+            color: var(--primary);
+            font-size: 3rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        .filter-section {
+            margin: 20px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .filter-button {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 30px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .filter-button:hover, .filter-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .food-spot {
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .food-spot:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .food-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .food-info {
+            padding: 20px;
+        }
+        
+        .food-info h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .food-info p {
+            color: var(--dark);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .rating span {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f8f8f8;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .location {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .location i {
+            margin-right: 8px;
+        }
+        
+        .comment-box {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            resize: none;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+        
+        .comment-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(46, 139, 87, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Popup */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            animation: fadeIn 0.3s forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            z-index: 1001;
+            animation: popIn 0.4s forwards;
+        }
+        
+        @keyframes popIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .popup-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            position: relative;
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .popup-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .popup-content {
+            padding: 30px;
+        }
+        
+        .popup-content h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .dish-list {
+            list-style: none;
+        }
+        
+        .dish-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .dish-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(46, 139, 87, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .popup-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .popup-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .secondary-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 100px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-column p, .footer-column a {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 50px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            .navbar .nav-links {
+                display: none;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .food-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        /* Animations and Effects */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: white;
+            z-index: 2000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(46, 139, 87, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(46, 139, 87, 0.4);
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+     
+    .order-badge {
+      display: inline-block;
+      margin: 5px 5px 10px 0;
+      padding: 6px 10px;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .order-badge.swiggy {
+      background-color: #fc8019;
+    }
+
+    .order-badge.zomato {
+      background-color: #e23744;
+    }
+ 
+
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Landing Page -->
+    <div class="landing-container" id="landingPage">
+        <h1>FOODSPOTS</h1>
+        <a href="#" class="enter-button" onclick="enterSite()">Discover Delicious</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="#" class="logo">FoodSpots</a>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Explore</a>
+                <a href="#">Top Rated</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for restaurants...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <header>
+                <h1>Delicious Food Spots</h1>
+                <p class="tagline">Discover the best places to eat in Kerala</p>
+            </header>
+            
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <button class="filter-button active" data-filter="all">All</button>
+                <button class="filter-button" data-filter="Edappal">Edappal</button>
+                <button class="filter-button" data-filter="Kuttipuram">Kuttipuram</button>
+                <button class="filter-button" data-filter="thrissur">Thrissur</button>
+                <button class="filter-button" data-filter="kozhikode">Kozhikode</button>
+                <button class="filter-button" data-filter="malappuram">Malappuram</button>
+                <button class="filter-button" data-filter="top-rated">Top Rated</button>
+                <button class="filter-button" data-filter="vegetarian">Vegetarian</button>
+                <button class="filter-button" data-filter="non-vegetarian">Non-Vegetarian</button>
+            </div>
+            
+            <!-- Food Grid -->
+            <div class="food-grid">
+                <!-- Original Spots -->
+                <div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Mufeeda Edappal','Kuttan biryani|Soft tender beef(kuttan)','Chicken biryani|Enterly different from a malabari biryani','Alfahm|unique flavoured afghani')">
+                    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.21.35_b705c15a.jpg"alt="Mufeeda Edappal" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Edappal</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Mufeeda Edappal</h2>
+                        <p>A Biryani joint which serves Hyderbadi biryani(long rice,mild spice,burst of flavors)
+                           <p> Timing and Availbilty:Biryani 12-2(mightvaried on busy days),Alfahms:3-night .</p>
+                           <p>Dinning and service is to shaggy and rushy not recommended for family</p>
+                       <p><i class="fas fa-phone-alt"></i>
+  <a href="tel:+919876543210">+91 7558017448</a>
+</p>
+    
+                        <div class="rating">
+                            <span>Rating</span> 4/5
+                        </div>
+                        <a href="https://maps.google.com?q=Mufeeda+Edappal" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        
+                        </a>
+                    </div>
+                </div>
+                <!-- New Food Spots to add to the food-grid -->
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Calicut Notebook Edappal', 'Chicken Pollichathu|Grilled chicken wrapped in banana leaf', 'Malabar Biryani|Aromatic biryani with ghee rice', 'Beef Ularthiyathu|Dry-fried beef with coconut flakes')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.00.26_db4987f4.jpg" alt="Calicut Notebook Edappal" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Multi-Cuisine</div>
+        <h2>Calicut Notebook Edappal</h2>
+        <p>Offering a fusion of Kerala spices with international flavors
+        Providing a great ambience
+        Is a franchise allthough every food has its own unique taste</p>
+        <P>Better dinning made the food more tastier</P>
+        <p>quality on top point AVg pricing for one person 200-500</p>
+<p><i class="fas fa-phone-alt"></i>
+  <a href="tel:+919876543210">049 42083000</a>
+</p>
+        <div class="rating">
+            <span>Rating</span> 4/5
+        </div>
+        <a href="https://maps.google.com?q=Calicut+Notebook+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Charcoalbay','Alfahms|variety flavors','Cold mezze platter|Hummus,garlic,babganoosh,salads','Mixed grill platter|tikka,kebabs,wings,lolipops')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.01.48_f7f3edac.jpg" alt="Charcoalbay" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Grills</div>
+        <h2>Charcoalbay</h2>
+        <p>Known for its smoky grilled delicacies and cozy ambiance.</p>
+        <p>May be little pricy but food they serves has top point the quality</p>
+        <p>cafe like ambience good for familys,friends</p>
+        <p>
+  <i class="fas fa-phone-alt"></i>
+  <a href="tel:+919876543210">+91 8575700900</a>
+</p>
+        <div class="rating">
+            <span>Rating</span> 3.8/5
+        </div>
+        <div class="badges">
+      <a href="https://www.swiggy.com/restaurants/Charcoalbay-edappal" target="_blank" class="order-badge swiggy">Order on Swiggy</a>
+      <a href="https://www.zomato.com/restaurants/Charcoalbay-edappal" target="_blank" class="order-badge zomato">Order on Zomato</a>
+    </div>
+        <a href="https://maps.google.com?q=Charcoalbay+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Nahdi Kuzhimandhi','beef grilled mandhi|grilled tender beef with special spices','Peri peri mandhi|hot&spicy mandhi which helps to digest more rice','shwai mandi|shwai chiken loaded in masala surved green chutney')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.07.02_0b65a794.jpg" alt="Nahdi Kuzhimandhi" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Mandhi</div>
+        <h2>Nahdi Kuzhimandhi</h2>
+        <p>Specializing in traditional Arabian Mandi dishes.</p>
+        <p>The people who cahnged national food to mandhi,the one started unlimted rice policy </p>
+        <p>good quality food consistency in food </p>
+        <p>provides different mandhi(mutton,fish,beef,chiken)also shwai
+        <p>AVg price for one person 160-350
+        </p>
+<p>
+  <i class="fas fa-phone-alt"></i>
+  <a href="tel:+919876543210">+91 9562608663</a>
+</p>
+
+        <div class="rating">
+            <span>Rating</span> 4.5/5
+        </div>
+        <div class="badges">
+      <a href="https://www.swiggy.com/restaurants/Nahdi Kuzhimandhi-edappal" target="_blank" class="order-badge swiggy">Order on Swiggy</a>
+      <a href="https://www.zomato.com/restaurants/Nahdi Kuzhimandhi-edappal" target="_blank" class="order-badge zomato">Order on Zomato</a>
+    </div>
+        <a href="https://maps.google.com?q=Nahdi+Kuzhimandhi+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Govinda\'s Vegetarian Restaurant','Masala dosa|crispy dosa with spicy potato filling','Veg kurma|mixed vegetables in creamy gravy','Uttapam|thick pancake loaded with onions & herbs')">
+  <img src="images/govindas.jpg" alt="Govinda's Vegetarian Restaurant" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Vegetarian</div>
+    <h2>Govinda's Vegetarian Restaurant</h2>
+    <p>Specializing in North & South Indian veg cuisine.</p>
+    <p>Popular for authentic dosas and kurmas.</p>
+    <p>Avg price per person ₹100–150</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+919446508608">+91 9446508608</a></p>
+    <div class="rating"><span>Rating</span> 4.5/5</div>
+    <a href="https://maps.google.com?q=Govinda's+Vegetarian+Restaurant+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Planet Cafe','Chocolate shake|rich chocolate milkshake','Veg burger|fresh patty with veggies','Ice cream|house special scoops')">
+  <img src="images/planet_cafe.jpg" alt="Planet Cafe" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Cafe</div>
+    <h2>Planet Cafe</h2>
+    <p>Cozy cafe serving shakes, sandwiches & desserts.</p>
+    <p>Family‑friendly ambiance.</p>
+    <p>Avg price per person ₹150</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXX">+91 98765XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 3.8/5</div>
+    <a href="https://maps.google.com?q=Planet+Cafe+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Al Taj Family Restaurant','Chicken fried rice|Chinese‑style rice with chicken','South Indian thali|variety of curries & rice','Noodles|gable Chinese noodles')">
+  <img src="images/al_taj.jpg" alt="Al Taj Family Restaurant" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Multi‑Cuisine</div>
+    <h2>Al Taj Family Restaurant</h2>
+    <p>Offers South Indian & Chinese dishes.</p>
+    <p>Good for family meals & casual dining.</p>
+    <p>Avg price per person ₹200</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXX">+91 98XXXXXXX</a></p>
+    <div class="rating"><span>Rating</span> 4.1/5</div>
+    <a href="https://maps.google.com?q=Al+Taj+Family+Restaurant+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Royal City Multi Cuisine Restaurant','Beef mandi|Arabian‑style spiced rice & beef','Chicken kebab|char‑grilled tender pieces','Paneer tikka|vegetarian kebab option')">
+  <img src="images/royal_city.jpg" alt="Royal City Multi Cuisine Restaurant" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Multi‑Cuisine</div>
+    <h2>Royal City Multi Cuisine Restaurant</h2>
+    <p>Multi‑cuisine menu including Arabic, Chinese & Indian.</p>
+    <p>Caterer for families and events.</p>
+    <p>Avg price per person ₹250–350</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXX">+91 90XXXXXXX</a></p>
+    <div class="rating"><span>Rating</span> Not rated</div>
+    <a href="https://maps.google.com?q=Royal+City+Restaurant+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Pizza Hut','Veg Supreme Pizza|loaded with veggies','Tandoori Paneer Pizza|smoky paneer topping','Chicken Crunch Pizza|spicy chicken base')">
+  <img src="images/pizza_hut.jpg" alt="Pizza Hut" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Pizza</div>
+    <h2>Pizza Hut</h2>
+    <p>Famous international pizza chain.</p>
+    <p>Delivery in ~25–30 min.</p>
+    <p>Avg price per person ₹150</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXXXXX">+91 XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 4.2/5</div>
+    <a href="https://maps.google.com?q=Pizza+Hut+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Hotel Vidhipole','Chicken meals|local-style combo','Parotta|flatbread with gravy','Beef fry|spicy dry meat')">
+  <img src="images/hotel_vidhipole.jpg" alt="Hotel Vidhipole" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Multi‑Cuisine</div>
+    <h2>Hotel Vidhipole</h2>
+    <p>South‑Chinese & Mughlai influences.</p>
+    <p>Popular for quick meals.</p>
+    <p>Avg price per person ₹150–200</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXXXXX">+91 XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 3.8/5</div>
+    <a href="https://maps.google.com?q=Hotel+Vidhipole+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Chicking','Chicken burger|signature chicken patty','Wraps|variety of fillings','Fries|crispy and salted')">
+  <img src="images/chicking.jpg" alt="Chicking" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Fast Food</div>
+    <h2>Chicking</h2>
+    <p>Popular quick‑bite chicken chain.</p>
+    <p>Good 4.1 rating on Zomato :contentReference[oaicite:5]{index=5}.</p>
+    <p>Avg price per person ₹150–200</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXXXXX">+91 XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 4.1/5</div>
+     <div class="badges">
+      <a href="https://www.swiggy.com/restaurants/chicking-edappal" target="_blank" class="order-badge swiggy">Order on Swiggy</a>
+      <a href="https://www.zomato.com/kozhikode/chicking-edappal" target="_blank" class="order-badge zomato">Order on Zomato</a>
+    </div>
+    <a href="https://maps.google.com?q=Chicking+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div> 
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Malabar Family Restaurant','Mutton biryani|spiced mutton rice','Chicken fry|crispy fried pieces','Veg thali|mixed veg options')">
+  <img src="images/malabar_family.jpg" alt="Malabar Family Restaurant" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Multi‑Cuisine</div>
+    <h2>Malabar Family Restaurant</h2>
+    <p>North Indian, Biryani & fast food.</p>
+    <p>“gud taste and fantastic packing”… but mixed quantity reviews :contentReference[oaicite:7]{index=7}.</p>
+    <p>Avg price per person ₹200–300</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91 9846800020">+91 98468 00020</a></p>
+    <div class="rating"><span>Rating</span> 4.0/5</div>
+    <a href="https://maps.google.com?q=Malabar+Family+Restaurant+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Juice Raiders','Mixed fruit juice|seasonal blend','Smoothies|health boosters','Shake specials|rich and creamy')">
+  <img src="images/juice_raiders.jpg" alt="Juice Raiders" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Beverages</div>
+    <h2>Juice Raiders</h2>
+    <p>Fresh juices, shakes & cold‑press.</p>
+    <p>Rated ~3.5/5 with juice, shake & shawarma menu :contentReference[oaicite:8]{index=8}.</p>
+    <p>Avg price per person ₹120–150</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXXXXX">+91 XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 3.5/5</div>
+    <a href="https://maps.google.com?q=Juice+Raiders+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Henking','Veg burger|homestyle veggie patty','Chicken burger|crispy tender','Fries & coolers|side & drinks')">
+  <img src="images/henking.jpg" alt="Henking" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Fast Food</div>
+    <h2>Henking</h2>
+    <p>Burger & fast food outlet.</p>
+    <p>Rated ~4.2 on Zomato :contentReference[oaicite:9]{index=9}.</p>
+    <p>Avg price per person ₹100</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXXXXX">+91 XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 4.2/5</div>
+    <a href="https://maps.google.com?q=Henking+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Mouzy Banana Avilmilk','Banana avil milk|dessert drink','Falooda|milk‑ice treat','Fruit bowls|fresh & healthy')">
+  <img src="images/mouzy_banana.jpg" alt="Mouzy Banana Avilmilk" class="food-img">
+  <div class="food-info">
+    <div class="badge">Edappal</div>
+    <div class="badge">Beverages</div>
+    <h2>Mouzy Banana Avilmilk</h2>
+    <p>Specialty dessert drinks.</p>
+    <p>Highly rated for unique flavors :contentReference[oaicite:10]{index=10}.</p>
+    <p>Avg price per person ₹150</p>
+    <p><i class="fas fa-phone-alt"></i><a href="tel:+91XXXXXXXXXX">+91 XXXXX</a></p>
+    <div class="rating"><span>Rating</span> 4.3/5</div>
+    <a href="https://maps.google.com?q=Mouzy+Banana+Edappal" target="_blank" class="location">
+      <i class="fas fa-map-marker-alt"></i> View on Google Maps
+    </a>
+  </div>
+</div>
+
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Whiteline')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.02.11_9795d522.jpg" alt="Whiteline" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Cafe</div>
+        <h2>Whiteline</h2>
+        <p>A modern cafe offering a variety of beverages and light bites.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Whiteline+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Al Ameen')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.23.48_ab282b1a.jpg"alt="Al Ameen" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Family Restaurant</div>
+        <h2>Al Ameen</h2>
+        <p>Serving a variety of dishes suitable for the whole family.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Al+Ameen+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Al Raidan Mandi')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.27.42_a8d5ea82.jpg" alt="Al Raidan Mandi" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Arabian</div>
+        <h2>Al Raidan Mandi</h2>
+        <p>Authentic Arabian Mandi with rich flavors and spices.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Al+Raidan+Mandi+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Doner Club')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.02.00_022db09c.jpg" alt="Doner Club" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">shawarma</div>
+        <h2>Doner Club</h2>
+        <p>Specializing in Doner kebabs and quick bites.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Doner+Club+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Shawarmax Edappal')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.02.22_4f6ee889.jpg" alt="Shawarmax Edappal" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Turkish</div>
+        <h2>Shawarmax Edappal</h2>
+        <p>Offering a variety of shawarma options with authentic Turkish flavors.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Shawarmax+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Proyal')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.09.02_c46be55e.jpg" alt="Proyal" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Multi-Cuisine</div>
+        <h2>Proyal</h2>
+        <p>Offering a wide range of cuisines with a focus on quality and taste.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Proyal+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+<div class="food-spot reveal" data-category="Edappal" onclick="openPopup('Go Grill')">
+    <img src="C:\Users\misha\OneDrive\Desktop\org\WhatsApp Image 2025-05-18 at 03.03.02_078b814f.jpg" alt="Go Grill" class="food-img">
+    <div class="food-info">
+        <div class="badge">Edappal</div>
+        <div class="badge">Grill</div>
+        <h2>Go Grill</h2>
+        <p>Known for its grilled specialties and fast service.</p>
+        <div class="rating">
+            <span>mishal</span>⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span>⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Gogrill+Edappal" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 1 -->
+<div class="food-spot reveal" data-category="kozhikode top-rated" onclick="openPopup('sagar Restaurant')">
+    <img src="/api/placeholder/400/320" alt="Sagar Restaurant" class="food-img">
+    <div class="food-info">
+        <div class="badge">Kozhikode</div>
+        <div class="badge">Non-Veg</div>
+        <div class="badge">Top Rated</div>
+        <h2>Sagar Restaurant</h2>
+        <p>Famous for its seafood delicacies and traditional Kerala fish curry meals.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Sagar+Restaurant+Kozhikode" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 2 -->
+<div class="food-spot reveal" data-category="thrissur" onclick="openPopup('Ramdas Hotel')">
+    <img src="/api/placeholder/400/320" alt="Ramdas Hotel" class="food-img">
+    <div class="food-info">
+        <div class="badge">Thrissur</div>
+        <div class="badge">Non-Veg</div>
+        <h2>Ramdas Hotel</h2>
+        <p>An iconic establishment serving traditional Thrissur-style meals since 1942.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Ramdas+Hotel+Thrissur" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 3 -->
+<div class="food-spot reveal" data-category="kozhikode vegetarian" onclick="openPopup('Krishna Kripa Restaurant')">
+    <img src="/api/placeholder/400/320" alt="Krishna Kripa Restaurant" class="food-img">
+    <div class="food-info">
+        <div class="badge">Kozhikode</div>
+        <div class="badge">Vegetarian</div>
+        <h2>Krishna Kripa Restaurant</h2>
+        <p>Pure vegetarian restaurant known for its authentic North Indian and Kerala cuisine.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Krishna+Kripa+Restaurant+Kozhikode" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 4 -->
+<div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Salkara Restaurant')">
+    <img src="/api/placeholder/400/320" alt="Salkara Restaurant" class="food-img">
+    <div class="food-info">
+        <div class="badge">Malappuram</div>
+        <div class="badge">Non-Veg</div>
+        <h2>Salkara Restaurant</h2>
+        <p>Popular for its rich Thalassery biryani and Malabari chicken dishes.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Salkara+Restaurant+Malappuram" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 5 -->
+<div class="food-spot reveal" data-category="thrissur top-rated" onclick="openPopup('Hotel Copper Spoon')">
+    <img src="" alt="Copper Spoon" class="food-img">
+    <div class="food-info">
+        <div class="badge">Thrissur</div>
+        <div class="badge">Fusion</div>
+        <div class="badge">Top Rated</div>
+        <h2>Hotel Copper Spoon</h2>
+        <p>Modern dining experience with fusion cuisine blending Kerala flavors with international techniques.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Hotel+Copper+Spoon+Thrissur" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 6 -->
+<div class="food-spot reveal" data-category="kozhikode" onclick="openPopup('Zains Bake House')">
+    <img src="/api/placeholder/400/320" alt="Zain's Bake House" class="food-img">
+    <div class="food-info">
+        <div class="badge">Kozhikode</div>
+        <div class="badge">Bakery</div>
+        <h2>Zain's Bake House</h2>
+        <p>Renowned bakery famous for its Kozhikode halwa, banana chips, and fresh pastries.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Zains+Bake+House+Kozhikode" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+
+<!-- Spot 8 -->
+<div class="food-spot reveal" data-category="thrissur vegetarian" onclick="openPopup('Annapurna Vegetarian Restaurant')">
+    <img src="/api/placeholder/400/320" alt="Annapurna Vegetarian Restaurant" class="food-img">
+    <div class="food-info">
+        <div class="badge">Thrissur</div>
+        <div class="badge">Vegetarian</div>
+        <h2>Annapurna Vegetarian Restaurant</h2>
+        <p>Family-friendly restaurant serving traditional Kerala vegetarian meals on banana leaves.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Annapurna+Vegetarian+Restaurant+Thrissur" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 9 -->
+<div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Malabar Bay')">
+    <img src="/api/placeholder/400/320" alt="Malabar Bay" class="food-img">
+    <div class="food-info">
+        <div class="badge">Malappuram</div>
+        <div class="badge">Seafood</div>
+        <h2>Malabar Bay</h2>
+        <p>Waterfront restaurant specializing in fresh seafood caught daily from local fishermen.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Malabar+Bay+Restaurant+Malappuram" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+
+<!-- Spot 10 -->
+<div class="food-spot reveal" data-category="kozhikode top-rated" onclick="openPopup('Bombay Restaurant')">
+    <img src="/api/placeholder/400/320" alt="Bombay Restaurant" class="food-img">
+    <div class="food-info">
+        <div class="badge">Kozhikode</div>
+        <div class="badge">Non-Veg</div>
+        <div class="badge">Top Rated</div>
+        <h2>Bombay Restaurant</h2>
+        <p>Historic establishment serving Mumbai-inspired street food with a Kerala twist since 1949.</p>
+        <div class="rating">
+            <span>Mishal</span> ⭐⭐⭐⭐⭐
+        </div>
+        <div class="rating">
+            <span>Rating</span> ⭐⭐⭐⭐⭐
+        </div>
+        <a href="https://maps.google.com?q=Bombay+Restaurant+Kozhikode" target="_blank" class="location">
+            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+        </a>
+    </div>
+</div>
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Friends Hotel Kuttipuram')">
+                    <img src="/api/placeholder/400/320" alt="Friends Hotel Kuttipuram" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Friends Hotel Kuttipuram</h2>
+                        <p>Popular for its delicious local Biryani .</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Friends+Hotel+Kuttipuram" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="kozhikode" onclick="openPopup('Paragon Restaurant')">
+                    <img src="/api/placeholder/400/320" alt="Paragon Restaurant" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Kozhikode</div>
+                        <div class="badge">Non-Veg</div>
+                        <div class="badge">Top Rated</div>
+                        <h2>Paragon Restaurant</h2>
+                        <p>Famous for its authentic Malabar cuisine and traditional biryanis.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Paragon+Restaurant+Calicut" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Zains Hotel')">
+                    <img src="/api/placeholder/400/320" alt="Zains Hotel" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Zains Hotel</h2>
+                        <p>Known for its tasty porotta and beef curry that locals swear by.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Zains+Hotel+Kerala" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Rahmath Hotel')">
+                    <img src="/api/placeholder/400/320" alt="Rahmath Hotel" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Rahmath Hotel</h2>
+                        <p>A hidden gem serving the most authentic Kerala Muslim cuisine.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Rahmath+Hotel+Kerala" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="kozhikode vegetarian" onclick="openPopup('Hotel Saravana Bhavan')">
+                    <img src="/api/placeholder/400/320" alt="Hotel Saravana Bhavan" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Kozhikode</div>
+                        <div class="badge">Vegetarian</div>
+                        <h2>Hotel Saravana Bhavan</h2>
+                        <p>Excellent South Indian vegetarian cuisine with the best dosas in town.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Hotel+Saravana+Bhavan+Kerala" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Nahdi Kuzhimandhi')">
+                    <img src="/api/placeholder/400/320" alt="Nahdi Kuzhimandhi" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Nahdi Kuzhimandhi</h2>
+                        <p>Excellent in serving Mandhi all over Kerala and now set to make mandhi as national food of Kerala.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Nahdi+Kuzhimandhi+Edappal" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Hotel Ritzy')">
+                    <img src="/api/placeholder/400/320" alt="Hotel Ritzy" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Hotel Ritzy</h2>
+                        <p>Excellent in serving minimal flavoured biryani with unique taste and aroma.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Hotel+Ritzy+Thangalpadi" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Additional spots from your data -->
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('T&T Edappal')">
+                    <img src="/api/placeholder/400/320" alt="T&T Edappal" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Café</div>
+                        <h2>T&T Edappal</h2>
+                        <p>Trendy café known for its fusion dishes and amazing variety of tea selections.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=T%26T+Edappal" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="malappuram" onclick="openPopup('Old Salt')">
+                    <img src="/api/placeholder/400/320" alt="Old Salt" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Malappuram</div>
+                        <div class="badge">Non-Veg</div>
+                        <h2>Old Salt</h2>
+                        <p>Modern restaurant known for its seafood preparations and creative cocktails.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Old+Salt+Malappuram" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="thrissur top-rated" onclick="openPopup('Bharath Restaurant')">
+                    <img src="/api/placeholder/400/320" alt="Bharath Restaurant" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Thrissur</div>
+                        <div class="badge">Top Rated</div>
+                        <h2>Bharath Restaurant</h2>
+                        <p>One of the oldest and most trusted restaurants in the region with authentic Kerala cuisine.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Bharath+Restaurant+Thrissur" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="food-spot reveal" data-category="thrissur vegetarian" onclick="openPopup('Aryaas')">
+                    <img src="/api/placeholder/400/320" alt="Aryaas" class="food-img">
+                    <div class="food-info">
+                        <div class="badge">Thrissur</div>
+                        <div class="badge">Vegetarian</div>
+                        <h2>Aryaas</h2>
+                        <p>Popular vegetarian restaurant known for its diverse South Indian delicacies.</p>
+                        <div class="rating">
+                            <span>Mishal</span> ⭐⭐⭐⭐
+                        </div>
+                        <div class="rating">
+                            <span>Rating</span> ⭐⭐⭐⭐
+                        </div>
+                        <a href="https://maps.google.com?q=Aryaas+Thrissur" target="_blank" class="location">
+                            <i class="fas fa-map-marker-alt"></i> View on Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Back to top button -->
+        <div class="back-to-top" id="backToTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <p>Kanda oochali paisa inagnd vedich thinuna vlogers ala swantham piasak otak vazhi vetti poy thinvara (PROFESSIONAL EATERS (VISHWASIKAM)) </p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="#">Home</a>
+                    <a href="#">Explore</a>
+                    <a href="#">Top Rated</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p>Email: miniproject794@gmail.com</p>
+                    <p>Phone: +91 75608139</p>
+                    <p>Address: Food Street, Kerala, India</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nach.07_?igsh=MXg1aXBrNTYxb3BjaA=="><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 FOODSPOTS. All rights reserve(KHADEEJA HANNA).</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Popup -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <h2 id="popupTitle">Mufeeda</h2>
+            <button class="popup-close" onclick="closePopup()">&times;</button>
+        </div>
+        <img src="/api/placeholder/400/320" alt="Restaurant" class="popup-image" id="popupImage">
+        <div class="popup-content">
+            <h3>Popular Dishes</h3>
+            <ul class="dish-list">
+                <li class="dish-item">
+                    <div class="dish-icon"><i class="fas fa-utensils"></i></div>
+                    <div class="dish-detail">
+                        <h4>Special Dish 1</h4>
+                        <p>Description of the special dish</p>
+                    </div>
+                </li>
+                <li class="dish-item">
+                    <div class="dish-icon"><i class="fas fa-utensils"></i></div>
+                    <div class="dish-detail">
+                        <h4>Special Dish 2</h4>
+                        <p>Description of the special dish</p>
+                    </div>
+                </li>
+                <li class="dish-item">
+                    <div class="dish-icon"><i class="fas fa-utensils"></i></div>
+                    <div class="dish-detail">
+                        <h4>Special Dish 3</h4>
+                        <p>Description of the special dish</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="popup-actions">
+                <a href="#" class="popup-button primary-btn" id="popupMapLink" target="_blank">View on Map</a>
+                <button class="popup-button secondary-btn" onclick="closePopup()">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- Your existing HTML content -->
+
+<!-- Add this script tag just before the closing </body> tag -->
+<script>
+
+        // Landing page animation
+        window.addEventListener('load', function() {
+            // Hide loader after page loads
+            setTimeout(function() {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 1000);
+        });
+        
+        function enterSite() {
+            document.getElementById('landingPage').classList.add('hidden');
+        }
+        
+        // Filter functionality
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to current button
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                // Filter food spots
+                document.querySelectorAll('.food-spot').forEach(spot => {
+                    if (filter === 'all' || spot.getAttribute('data-category').includes(filter)) {
+                        spot.style.display = 'block';
+                    } else {
+                        spot.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Reveal animation
+        window.addEventListener('scroll', function() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const revealTop = reveals[i].getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    reveals[i].classList.add('active');
+                }
+            }
+            
+            // Show/hide back to top button
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                document.getElementById('backToTop').classList.add('visible');
+            } else {
+                document.getElementById('backToTop').classList.remove('visible');
+            }
+        });
+        
+        // Back to top functionality
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Popup functionality
+        function openPopup(restaurant) {
+            document.getElementById('popupTitle').innerText = restaurant;
+            document.getElementById('popupImage').alt = restaurant;
+            document.getElementById('popupMapLink').href = `https://maps.google.com?q=${encodeURIComponent(restaurant)}`;
+            
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('popup').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close popup when clicking outside
+        document.getElementById('overlay').addEventListener('click', closePopup);
+function openPopup(title, dish1, dish2, dish3) {
+    document.getElementById("popupTitle").textContent = title;
+
+    const dishes = [dish1, dish2, dish3];
+    const dishElements = document.querySelectorAll(".dish-item");
+
+    dishes.forEach((dish, index) => {
+        if (dish && dishElements[index]) {
+            const [name, description] = dish.split("|");
+            dishElements[index].querySelector("h4").textContent = name;
+            dishElements[index].querySelector("p").textContent = description;
+        }
+    });
+
+    // Update map link dynamically
+    document.getElementById("popupMapLink").href = "https://maps.google.com?q=" + encodeURIComponent(title);
+
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("popup").style.display = "none";
+}
+    </script>
+</body>
+</html>
